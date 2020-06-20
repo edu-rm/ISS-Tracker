@@ -11,19 +11,51 @@ import api from '../../services/api';
 import './styles.css';
 
 function Inicio() {
-  const [intial, setInitial] = useState([0,0]);
   const [iss, setIss] = useState([51.79149569528,132.52919955419]);
   const [currentLat, setCurrentLat] = useState();
   const [currentLong, setCurrentLong] = useState();
   const [currentAlt, setCurrentAlt] = useState();
   const [currentVel, setCurrentVel] = useState();
-  const curved = useCurvedLine();
+  const [curved, setCurved] = useState();
+  const [updateRoutes, setUpdateRoutes] = useState(false);
+
+
+
+  async function requestRoutePosition(query){
+    try {
+      const response = await api.get(`satellites/25544/positions?timestamps=${query}`);
+      const latLong = response.data
+                        .map(info => [info.longitude, info.latitude]);
+
+      const line = helpers.lineString(latLong);
+
+      const data = bezierSpline(line);
+      
+      setCurved(data);
+
+    }catch (e) {
+      console.log(e);
+    }
+  }
+  
+  useEffect(() => {
+      const timestamp = Math.trunc(Date.now()/1000);
+      let queryString = '';
+      console.log("executei");
+      for(let i = 0; i < 2; i++) {
+        queryString += `${timestamp + (i * 120)},`;
+      }
+    
+      queryString = queryString.slice(0,-1);
+      requestRoutePosition(queryString);
+
+  },[updateRoutes])
 
   useEffect(() => {
 
     setInterval(() => {
       currentPosition();
-    }, 1000);
+    }, 5000);
 
     async function currentPosition(){
       try {
@@ -54,7 +86,7 @@ function Inicio() {
   return (
     <div className="container-inicio">
       <div className="map">
-        <Map center={[0,0]} zoom={2} >
+        <Map center={[0,0]} zoom={1} >
           <TileLayer
             // attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -65,15 +97,7 @@ function Inicio() {
             icon={ISSIcon}
             position={iss}
           />
-          <GeoJSON
-            // positions={[
-            //   [-3.3237922,-61.1868745],
-            //   [-6.0066284,-57.7040952],
-            //   [-12.528837,-58.6294714],
-            //   [-12.430272,-64.7201289]
-            // ]}
-            data={curved}
-          />
+          {curved && <GeoJSON data={curved} />}
         </Map>
       </div>
       <div className="info">
@@ -95,32 +119,11 @@ function Inicio() {
             <p id="name">Velocity:</p>
             <p id="value">{Math.trunc(currentVel)} km/h</p>
           </div>
-          
+          <button type="button" onClick={() => setUpdateRoutes(!updateRoutes)}>Atualizar Rotas</button>
         </div>
       </div>
     </div>
   );
-}
-
-function useCurvedLine(){
-  const line = helpers.lineString(
-    [
-      [33.305896737965, 152.05984814213],
-      [51.272908763976, -162.71917412412],
-      [41.909832462086, -109.0896085631],
-      [15.106467454388, -78.960508181027],
-      [ -15.232644215422, -56.864203479881],
-      // [15.106467454388, -78.960508181027],
-      // [15.106467454388, -78.960508181027], 
-
-    ].map(lngLat => [lngLat[1], lngLat[0]])
-  );
-  
-  const curved = bezierSpline(line);
-  console.log(curved);
-
-
-  return curved;
 }
 
 export default Inicio;
