@@ -1,0 +1,27 @@
+.container-inicio {
+  /* margin-left: 108px; */
+  /* z-index: 20 */
+  height: 100%;
+  position: relative;
+}
+
+.map {
+  height: 100vh;
+  /* position: absolute; */
+
+}
+
+.info {
+  position: absolute;
+  bottom: 20px;
+  right: 0;
+  z-index: 1000;
+  background-color: #1A1A1D;
+  color: white;
+  border-radius: 8px;
+  padding: 8px 8px;
+}
+.info-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
