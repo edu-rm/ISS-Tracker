@@ -1,0 +1,49 @@
+.container-header {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  /* align-items: center; */
+  text-align: center;
+  color: black;
+}
+  
+.content {
+  height: 100%;
+  width: 100px;
+  position: fixed;
+  /* display: inline; */
+  background-color: white;
+  /* margin: 50px 0 0 70px; */
+  /* margin: auto 0; */
+  box-shadow: 0px 13px 30px rgba(0, 0, 0, 0.8);
+}
+
+.logo {
+  margin: 40px 0;
+}
+
+.logo h2{
+  margin: 0;
+}
+
+.logo img{
+  max-width: 70%;
+  padding: 8px 6px;
+  /* position: absolute; */
+
+}
+
+
+
+
+ul li {
+  margin: 40px 0;
+}
+
+ul li a {
+  background-color: black;
+  border-radius: 5px;
+  padding: 6px 8px;
+  color: white;
+  font-weight: bold;
+}
