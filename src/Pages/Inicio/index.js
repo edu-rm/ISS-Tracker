@@ -21,12 +21,23 @@ function Inicio() {
       <div className="info">
         <h3>Information</h3>
         <div className="info-content">
-          <p>Lat: 8543985493</p>
-          <p>Long: 8543985493</p>
-          <p>Lat: 8543985493</p>
-          <p>Long: 8543985493</p>
-          <p>Lat: 8543985493</p>
-          <p>Long: 8543985493</p>
+          <div className="info-item">
+            <p id="name">Lat:</p>
+            <p id="value">-32.0000</p>
+          </div>
+          <div className="info-item">
+            <p id="name">Long:</p>
+            <p id="value">-42.0000</p>
+          </div>
+          <div className="info-item">
+            <p id="name">Alt:</p>
+            <p id="value">500 km</p>
+          </div>
+          <div className="info-item">
+            <p id="name">Velocity:</p>
+            <p id="value">27000 km/h</p>
+          </div>
+          
         </div>
       </div>
     </div>
