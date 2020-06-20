@@ -16,14 +16,15 @@ function Inicio() {
   const [currentLong, setCurrentLong] = useState();
   const [currentAlt, setCurrentAlt] = useState();
   const [currentVel, setCurrentVel] = useState();
-  const [curved, setCurved] = useState();
+  const [future, setFuture] = useState();
+  const [past, setPast] = useState();
   const [updateRoutes, setUpdateRoutes] = useState(false);
 
 
 
-  async function requestRoutePosition(query){
+  async function requestRoutePosition(queryFuture, queryPast){
     try {
-      const response = await api.get(`satellites/25544/positions?timestamps=${query}`);
+      const response = await api.get(`satellites/25544/positions?timestamps=${queryFuture}`);
       const latLong = response.data
                         .map(info => [info.longitude, info.latitude]);
 
@@ -31,7 +32,21 @@ function Inicio() {
 
       const data = bezierSpline(line);
       
-      setCurved(data);
+      setFuture(data);
+
+    }catch (e) {
+      console.log(e);
+    }
+    try {
+      const response = await api.get(`satellites/25544/positions?timestamps=${queryPast}`);
+      const latLong = response.data
+                        .map(info => [info.longitude, info.latitude]);
+
+      const line = helpers.lineString(latLong);
+
+      const data = bezierSpline(line);
+      
+      setPast(data);
 
     }catch (e) {
       console.log(e);
@@ -40,14 +55,22 @@ function Inicio() {
   
   useEffect(() => {
       const timestamp = Math.trunc(Date.now()/1000);
-      let queryString = '';
-      console.log("executei");
-      for(let i = 0; i < 2; i++) {
-        queryString += `${timestamp + (i * 30)},`;
+      let queryStringFuture = '';
+      let queryStringPast = '';
+
+      // console.log("executei");
+      for(let i = 0; i < 9; i++) {
+        queryStringFuture += `${timestamp + (i * 300)},`;
+      }
+
+      for(let i = 0; i < 9; i++) {
+        queryStringPast += `${timestamp + (i * -300)},`;
       }
     
-      queryString = queryString.slice(0,-1);
-      requestRoutePosition(queryString);
+      queryStringFuture = queryStringFuture.slice(0,-1);
+      queryStringPast = queryStringPast.slice(0,-1);
+
+      requestRoutePosition(queryStringFuture, queryStringPast);
 
   },[updateRoutes])
 
@@ -98,7 +121,8 @@ function Inicio() {
             icon={ISSIcon}
             position={iss}
           />
-          {curved && <GeoJSON color="black" data={curved} />}
+          {future && <GeoJSON color="black" data={future} />}
+          {past && <GeoJSON color="red" data={past} />}
         </Map>
       </div>
       <div className="info">
