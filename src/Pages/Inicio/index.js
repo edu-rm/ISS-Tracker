@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Map, TileLayer, Marker } from 'react-leaflet';
+import { Map, TileLayer, Marker, GeoJSON } from 'react-leaflet';
+
+import bezierSpline from '@turf/bezier-spline';
+import * as helpers from "@turf/helpers";
 
 import ISSIcon from '../../components/Icon';
 
@@ -14,9 +17,7 @@ function Inicio() {
   const [currentLong, setCurrentLong] = useState();
   const [currentAlt, setCurrentAlt] = useState();
   const [currentVel, setCurrentVel] = useState();
-
-
-
+  const curved = useCurvedLine();
 
   useEffect(() => {
 
@@ -49,6 +50,7 @@ function Inicio() {
 
   },[]);
 
+
   return (
     <div className="container-inicio">
       <div className="map">
@@ -62,6 +64,15 @@ function Inicio() {
           <Marker 
             icon={ISSIcon}
             position={iss}
+          />
+          <GeoJSON
+            // positions={[
+            //   [-3.3237922,-61.1868745],
+            //   [-6.0066284,-57.7040952],
+            //   [-12.528837,-58.6294714],
+            //   [-12.430272,-64.7201289]
+            // ]}
+            data={curved}
           />
         </Map>
       </div>
@@ -89,6 +100,27 @@ function Inicio() {
       </div>
     </div>
   );
+}
+
+function useCurvedLine(){
+  const line = helpers.lineString(
+    [
+      [33.305896737965, 152.05984814213],
+      [51.272908763976, -162.71917412412],
+      [41.909832462086, -109.0896085631],
+      [15.106467454388, -78.960508181027],
+      [ -15.232644215422, -56.864203479881],
+      // [15.106467454388, -78.960508181027],
+      // [15.106467454388, -78.960508181027], 
+
+    ].map(lngLat => [lngLat[1], lngLat[0]])
+  );
+  
+  const curved = bezierSpline(line);
+  console.log(curved);
+
+
+  return curved;
 }
 
 export default Inicio;
