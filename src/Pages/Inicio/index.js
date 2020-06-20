@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Map, TileLayer, Marker } from 'react-leaflet';
 
+import ISSIcon from '../../components/Icon';
+
 import api from '../../services/api';
 
 import './styles.css';
@@ -56,9 +58,11 @@ function Inicio() {
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             url='https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png'
             attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-
           />
-          <Marker position={iss}/>
+          <Marker 
+            icon={ISSIcon}
+            position={iss}
+          />
         </Map>
       </div>
       <div className="info">
