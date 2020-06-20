@@ -1,11 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Map, TileLayer, Marker } from 'react-leaflet';
+
+import api from '../../services/api';
 
 import './styles.css';
 
 function Inicio() {
   const [intial, setInitial] = useState([0,0]);
   const [iss, setIss] = useState([51.79149569528,132.52919955419]);
+
+  useEffect(() => {
+    
+    setInterval(() => {
+      currentPosition();
+    }, 1000);
+
+    async function currentPosition(){
+      try {
+        const response = await api.get('/satellites/25544');
+        const { latitude, longitude } = response.data;
+        setIss([latitude, longitude]);
+      } catch (e) {
+        console.log(e);
+      }
+    }    
+
+  },[]);
 
   return (
     <div className="container-inicio">
