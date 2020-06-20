@@ -43,7 +43,7 @@ function Inicio() {
       let queryString = '';
       console.log("executei");
       for(let i = 0; i < 2; i++) {
-        queryString += `${timestamp + (i * 120)},`;
+        queryString += `${timestamp + (i * 30)},`;
       }
     
       queryString = queryString.slice(0,-1);
@@ -55,7 +55,7 @@ function Inicio() {
 
     setInterval(() => {
       currentPosition();
-    }, 5000);
+    }, 1000);
 
     async function currentPosition(){
       try {
@@ -92,12 +92,13 @@ function Inicio() {
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             url='https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png'
             attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            
           />
           <Marker 
             icon={ISSIcon}
             position={iss}
           />
-          {curved && <GeoJSON data={curved} />}
+          {curved && <GeoJSON color="black" data={curved} />}
         </Map>
       </div>
       <div className="info">
