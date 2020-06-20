@@ -8,9 +8,16 @@ import './styles.css';
 function Inicio() {
   const [intial, setInitial] = useState([0,0]);
   const [iss, setIss] = useState([51.79149569528,132.52919955419]);
+  const [currentLat, setCurrentLat] = useState();
+  const [currentLong, setCurrentLong] = useState();
+  const [currentAlt, setCurrentAlt] = useState();
+  const [currentVel, setCurrentVel] = useState();
+
+
+
 
   useEffect(() => {
-    
+
     setInterval(() => {
       currentPosition();
     }, 1000);
@@ -18,8 +25,21 @@ function Inicio() {
     async function currentPosition(){
       try {
         const response = await api.get('/satellites/25544');
-        const { latitude, longitude } = response.data;
+        const { latitude, longitude, altitude, velocity } = response.data;
+        console.log(response.data);
+
         setIss([latitude, longitude]);
+
+        let longString = String(longitude);
+        longString = longString.substr(0, longString.length - 6);
+
+        let latString = String(latitude);
+        latString = latString.substr(0, latString.length - 6);
+
+        setCurrentLat(latString);
+        setCurrentLong(longString);
+        setCurrentAlt(altitude);
+        setCurrentVel(velocity);
       } catch (e) {
         console.log(e);
       }
@@ -30,7 +50,7 @@ function Inicio() {
   return (
     <div className="container-inicio">
       <div className="map">
-        <Map center={intial} zoom={2} >
+        <Map center={[0,0]} zoom={2} >
           <TileLayer
             attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -43,19 +63,19 @@ function Inicio() {
         <div className="info-content">
           <div className="info-item">
             <p id="name">Lat:</p>
-            <p id="value">-32.0000</p>
+            <p id="value">{currentLat}</p>
           </div>
           <div className="info-item">
             <p id="name">Long:</p>
-            <p id="value">-42.0000</p>
+            <p id="value">{currentLong}</p>
           </div>
           <div className="info-item">
             <p id="name">Alt:</p>
-            <p id="value">500 km</p>
+            <p id="value">{Math.trunc(currentAlt)} km</p>
           </div>
           <div className="info-item">
             <p id="name">Velocity:</p>
-            <p id="value">27000 km/h</p>
+            <p id="value">{Math.trunc(currentVel)} km/h</p>
           </div>
           
         </div>

@@ -34,9 +34,10 @@
 
 .info-content {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 200px;
   grid-gap: 0 20px;
-  align-items: center;
+  padding: 0 15px;
+  /* align-items:flex-start; */
 }
 /* 
 .info-content p{
@@ -45,7 +46,7 @@
 
 .info-content .info-item {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 85px 1fr;
 }
 .info-content .info-item #name {
   font-weight: 400;
