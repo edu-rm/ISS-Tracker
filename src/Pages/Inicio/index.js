@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Map, TileLayer, Marker, GeoJSON } from 'react-leaflet';
-
 import bezierSpline from '@turf/bezier-spline';
 import * as helpers from "@turf/helpers";
 
@@ -9,6 +8,10 @@ import ISSIcon from '../../components/Icon';
 import api from '../../services/api';
 
 import './styles.css';
+
+// longitude : -180 até 180
+// latitude : -90 até 90
+
 
 function Inicio() {
   const [iss, setIss] = useState([51.79149569528,132.52919955419]);
@@ -19,8 +22,6 @@ function Inicio() {
   const [future, setFuture] = useState();
   const [past, setPast] = useState();
   const [updateRoutes, setUpdateRoutes] = useState(false);
-
-
 
   async function requestRoutePosition(queryFuture, queryPast){
     try {
@@ -59,15 +60,16 @@ function Inicio() {
       let queryStringPast = '';
 
       // console.log("executei");
-      for(let i = 0; i < 9; i++) {
-        queryStringFuture += `${timestamp + (i * 300)},`;
+      for(let i = 0; i < 46; i++) {
+        queryStringFuture += `${timestamp + (i * 120)},`;
       }
-
-      for(let i = 0; i < 9; i++) {
-        queryStringPast += `${timestamp + (i * -300)},`;
+      for(let i = 0; i < 46; i++) {
+        queryStringPast += `${timestamp + (i * -120)},`;
       }
     
       queryStringFuture = queryStringFuture.slice(0,-1);
+      console.log(queryStringFuture);
+
       queryStringPast = queryStringPast.slice(0,-1);
 
       requestRoutePosition(queryStringFuture, queryStringPast);
@@ -109,12 +111,13 @@ function Inicio() {
   return (
     <div className="container-inicio">
       <div className="map">
-        <Map center={[0,0]} zoom={1} >
+        <Map length={4} center={[0,0]} zoom={1.5} >
           <TileLayer
             // attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             url='https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png'
             attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            noWrap={true}
             
           />
           <Marker 
