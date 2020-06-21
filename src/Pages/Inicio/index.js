@@ -6,7 +6,7 @@ import * as helpers from "@turf/helpers";
 import ISSIcon from '../../components/Icon/iss';
 import you from '../../components/Icon/user';
 import red_line from '../../assets/red_line.png';
-import black_line from '../../assets/black_line.png';
+import green_line from '../../assets/green_line.png';
 import api from '../../services/api';
 
 import './styles.css';
@@ -205,8 +205,8 @@ function Inicio() {
           }
 
           {currentFootprint && <Circle center={[currentLat, currentLong]} radius={currentFootprint*500}/>}
-          {futureInicio && <GeoJSON color="black" data={futureInicio}/>}
-          {futureBreak && <GeoJSON color="black" data={futureBreak} />}
+          {futureInicio && <GeoJSON color="green" data={futureInicio}/>}
+          {futureBreak && <GeoJSON color="green" data={futureBreak} />}
 
           {pastInicio && <GeoJSON color="red" data={pastInicio} />}
           {pastBreak && <GeoJSON color="red" data={pastBreak} />}
@@ -222,7 +222,7 @@ function Inicio() {
         </div>
         <div className="item">
           <p id="futuro">Futuro: </p>
-          <img id="red-line" src={black_line} alt="linha vermelha"/>
+          <img id="red-line" src={green_line} alt="linha vermelha"/>
         </div>
       </div>
       <div className="info">
