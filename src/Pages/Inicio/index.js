@@ -14,7 +14,7 @@ import './styles.css';
 
 
 function Inicio() {
-  const [iss, setIss] = useState([51.79149569528,132.52919955419]);
+  const [iss, setIss] = useState([0,0]);
   const [currentLat, setCurrentLat] = useState();
   const [currentLong, setCurrentLong] = useState();
   const [currentAlt, setCurrentAlt] = useState();
@@ -101,6 +101,7 @@ function Inicio() {
       console.log(e);
     }
   }
+
   
   useEffect(() => {
       const timestamp = Math.trunc(Date.now()/1000);
@@ -120,11 +121,11 @@ function Inicio() {
       queryStringPast = queryStringPast.slice(0,-1);
 
       requestRoutePosition(queryStringFuture, queryStringPast);
+      
 
   },[updateRoutes])
 
   useEffect(() => {
-
     setInterval(() => {
       currentPosition();
     }, 1000);
@@ -155,7 +156,7 @@ function Inicio() {
         setCurrentAlt(altitude);
         setCurrentVel(velocity);
         setCurrentFootprint(footprint);
-        // const solarArray = [[solar_lon, solar_lat]];
+        setSolar([solar_lon, solar_lat]);
         // const lineSolar = helpers.lineString(solarArray);
 
         // const bezierSolar= bezierSpline(lineSolar);
@@ -172,7 +173,7 @@ function Inicio() {
   return (
     <div className="container-inicio">
       <div className="map">
-        <Map center={[0,0]} zoom={-1} >
+        <Map center={iss} zoom={2} >
           <TileLayer
             // attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -185,7 +186,8 @@ function Inicio() {
             icon={ISSIcon}
             position={iss}
           />
-          {currentFootprint && <Circle center={iss} radius={currentFootprint*1000/2}/>}
+
+          {currentFootprint && <Circle center={[currentLat, currentLong]} radius={currentFootprint*500}/>}
           {futureInicio && <GeoJSON color="black" data={futureInicio}/>}
           {futureBreak && <GeoJSON color="black" data={futureBreak} />}
 
