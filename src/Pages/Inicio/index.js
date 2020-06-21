@@ -3,7 +3,9 @@ import { Map, TileLayer, Marker, GeoJSON, Circle } from 'react-leaflet';
 import bezierSpline from '@turf/bezier-spline';
 import * as helpers from "@turf/helpers";
 
-import ISSIcon from '../../components/Icon';
+import ISSIcon from '../../components/Icon/iss';
+import you from '../../components/Icon/user';
+
 
 import api from '../../services/api';
 
@@ -29,6 +31,8 @@ function Inicio() {
   const [pastBreak, setPastBreak] = useState();
 
   const [updateRoutes, setUpdateRoutes] = useState(false);
+
+  const [userPosition, setUserPosition] = useState();
 
   async function requestRoutePosition(queryFuture, queryPast){
     try {
@@ -102,7 +106,12 @@ function Inicio() {
     }
   }
 
-  
+  useEffect(()=>{
+    navigator.geolocation.getCurrentPosition(position => {
+      const { latitude, longitude } = position.coords;
+      setUserPosition([latitude, longitude]);
+    });
+  }, []);
   useEffect(() => {
       const timestamp = Math.trunc(Date.now()/1000);
       let queryStringFuture = '';
@@ -173,7 +182,7 @@ function Inicio() {
   return (
     <div className="container-inicio">
       <div className="map">
-        <Map center={iss} zoom={2} >
+        <Map center={userPosition} zoom={2} >
           <TileLayer
             // attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -186,6 +195,10 @@ function Inicio() {
             icon={ISSIcon}
             position={iss}
           />
+          {userPosition && <Marker 
+                              icon={you} 
+                              position={userPosition}
+                              />}
 
           {currentFootprint && <Circle center={[currentLat, currentLong]} radius={currentFootprint*500}/>}
           {futureInicio && <GeoJSON color="black" data={futureInicio}/>}
@@ -194,7 +207,7 @@ function Inicio() {
           {pastInicio && <GeoJSON color="red" data={pastInicio} />}
           {pastBreak && <GeoJSON color="red" data={pastBreak} />}
 
-          {solar && <GeoJSON color="blue" data={solar} />}
+          {/* {solar && <GeoJSON color="blue" data={solar} />} */}
 
         </Map>
       </div>
