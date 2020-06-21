@@ -19,39 +19,53 @@ function Inicio() {
   const [currentLong, setCurrentLong] = useState();
   const [currentAlt, setCurrentAlt] = useState();
   const [currentVel, setCurrentVel] = useState();
-  const [future, setFuture] = useState();
+  const [future, setFuture] = useState([]);
   const [past, setPast] = useState();
   const [updateRoutes, setUpdateRoutes] = useState(false);
 
   async function requestRoutePosition(queryFuture, queryPast){
     try {
       const response = await api.get(`satellites/25544/positions?timestamps=${queryFuture}`);
-      const latLong = response.data
-                        .map(info => [info.longitude, info.latitude]);
+      const pos_inicialLongitude = response.data[0].longitude;
+      // console.log(pos_inicialLongitude);
+      // se a posição inicial dele for maior que a próxima, ele mudou.
 
-      const line = helpers.lineString(latLong);
+      let inicio = [{}];
+      let inicioBreak= [{}];
 
-      const data = bezierSpline(line);
-      
-      setFuture(data);
+      for(let i = 0 ; i< response.data.length ; i++){
+        if(pos_inicialLongitude <= response.data[i].longitude){
+          inicio[i] = response.data[i]; 
+        }else {
+          inicioBreak[i - inicio.length] = response.data[i];
+        }
+      }
+
+      const lineInicio = helpers.lineString(inicio.map(info => [info.longitude, info.latitude]));
+      const lineBreak = helpers.lineString(inicioBreak.map(info => [info.longitude, info.latitude]));
+
+
+      const bezierInicio = bezierSpline(lineInicio);
+      const bezierBreak = bezierSpline(lineBreak);
+      setFuture([bezierInicio, bezierBreak]); 
 
     }catch (e) {
       console.log(e);
     }
-    try {
-      const response = await api.get(`satellites/25544/positions?timestamps=${queryPast}`);
-      const latLong = response.data
-                        .map(info => [info.longitude, info.latitude]);
+    // try {
+    //   const response = await api.get(`satellites/25544/positions?timestamps=${queryPast}`);
+    //   const latLong = response.data
+    //                     .map(info => [info.longitude, info.latitude]);
 
-      const line = helpers.lineString(latLong);
+    //   const line = helpers.lineString(latLong);
 
-      const data = bezierSpline(line);
+    //   const data = bezierSpline(line);
       
-      setPast(data);
+    //   setPast(data);
 
-    }catch (e) {
-      console.log(e);
-    }
+    // }catch (e) {
+    //   console.log(e);
+    // }
   }
   
   useEffect(() => {
@@ -61,14 +75,13 @@ function Inicio() {
 
       // console.log("executei");
       for(let i = 0; i < 46; i++) {
-        queryStringFuture += `${timestamp + (i * 120)},`;
+        queryStringFuture += `${timestamp + (i * 130)},`;
       }
       for(let i = 0; i < 46; i++) {
         queryStringPast += `${timestamp + (i * -120)},`;
       }
     
       queryStringFuture = queryStringFuture.slice(0,-1);
-      console.log(queryStringFuture);
 
       queryStringPast = queryStringPast.slice(0,-1);
 
@@ -86,7 +99,6 @@ function Inicio() {
       try {
         const response = await api.get('/satellites/25544');
         const { latitude, longitude, altitude, velocity } = response.data;
-        console.log(response.data);
 
         setIss([latitude, longitude]);
 
@@ -124,7 +136,7 @@ function Inicio() {
             icon={ISSIcon}
             position={iss}
           />
-          {future && <GeoJSON color="black" data={future} />}
+          {future && future.map(linha => <GeoJSON color="black" data={linha} />)}
           {past && <GeoJSON color="red" data={past} />}
         </Map>
       </div>
