@@ -54,3 +54,26 @@
 .info-content .info-item #value {
   font-weight: 100;
 }
+
+.legenda {
+   /* text-align: center; */
+   position: absolute;
+   bottom: 300px;
+   right: 0;
+   z-index: 900;
+   background-color: black;
+   opacity: 0.79;
+   color: white;
+   border-radius: 8px;
+   padding: 8px 8px;
+   margin: 0 20px 0 0;
+}
+
+.legenda .item {
+  display: flex;
+  align-items: center;
+}
+
+.legenda .item p {
+  margin-right: 10px;
+}

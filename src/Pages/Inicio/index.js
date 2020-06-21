@@ -5,8 +5,8 @@ import * as helpers from "@turf/helpers";
 
 import ISSIcon from '../../components/Icon/iss';
 import you from '../../components/Icon/user';
-
-
+import red_line from '../../assets/red_line.png';
+import black_line from '../../assets/black_line.png';
 import api from '../../services/api';
 
 import './styles.css';
@@ -195,10 +195,14 @@ function Inicio() {
             icon={ISSIcon}
             position={iss}
           />
-          {userPosition && <Marker 
-                              icon={you} 
-                              position={userPosition}
-                              />}
+          {
+          userPosition 
+          && 
+          <Marker 
+            icon={you} 
+            position={userPosition}
+          />
+          }
 
           {currentFootprint && <Circle center={[currentLat, currentLong]} radius={currentFootprint*500}/>}
           {futureInicio && <GeoJSON color="black" data={futureInicio}/>}
@@ -210,6 +214,16 @@ function Inicio() {
           {/* {solar && <GeoJSON color="blue" data={solar} />} */}
 
         </Map>
+      </div>
+      <div className="legenda">
+        <div className="item">
+          <p id="passado">Passado:</p>
+          <img id="red-line" src={red_line} alt="linha vermelha"/>
+        </div>
+        <div className="item">
+          <p id="futuro">Futuro: </p>
+          <img id="red-line" src={black_line} alt="linha vermelha"/>
+        </div>
       </div>
       <div className="info">
         <h3>Information</h3>
