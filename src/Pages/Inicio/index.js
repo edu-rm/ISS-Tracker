@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Map, TileLayer, Marker, GeoJSON } from 'react-leaflet';
+import { Map, TileLayer, Marker, GeoJSON, Circle } from 'react-leaflet';
 import bezierSpline from '@turf/bezier-spline';
 import * as helpers from "@turf/helpers";
 
@@ -19,11 +19,16 @@ function Inicio() {
   const [currentLong, setCurrentLong] = useState();
   const [currentAlt, setCurrentAlt] = useState();
   const [currentVel, setCurrentVel] = useState();
+  const [currentFootprint, setCurrentFootprint] = useState();
+
   const [futureInicio, setFutureInicio] = useState();
   const [futureBreak, setFutureBreak] = useState();
+  const [solar, setSolar] = useState();
 
-  const [past, setPast] = useState([]);
-  const [updateRoutes, setUpdateRoutes] = useState(1);
+  const [pastInicio, setPastInicio] = useState();
+  const [pastBreak, setPastBreak] = useState();
+
+  const [updateRoutes, setUpdateRoutes] = useState(false);
 
   async function requestRoutePosition(queryFuture, queryPast){
     try {
@@ -42,9 +47,6 @@ function Inicio() {
           inicioBreak[i - inicio.length] = response.data[i];
         }
       }
-
-      console.log(inicio)
-      console.log(inicioBreak)
 
       if(inicio.length >=1){
         const lineInicio = helpers.lineString(inicio.map(info => [info.longitude, info.latitude]));
@@ -81,14 +83,18 @@ function Inicio() {
       // console.log(inicio);
       // console.log(inicioBreak);
 
-      const lineInicio = helpers.lineString(inicio.map(info => [info.longitude, info.latitude]));
-      const lineBreak = helpers.lineString(inicioBreak.map(info => [info.longitude, info.latitude]));
+      if(inicio.length >=1){
+        const lineInicio = helpers.lineString(inicio.map(info => [info.longitude, info.latitude]));
+        const bezierInicio = bezierSpline(lineInicio);
+        setPastInicio(bezierInicio);
 
+      }
 
-      const bezierInicio = bezierSpline(lineInicio);
-      const bezierBreak = bezierSpline(lineBreak);
-
-      setPast([bezierInicio, bezierBreak]); 
+      if(inicioBreak.length >=1){
+        const lineBreak = helpers.lineString(inicioBreak.map(info => [info.longitude, info.latitude]));
+        const bezierBreak = bezierSpline(lineBreak);
+        setPastBreak(bezierBreak); 
+      }
 
 
     }catch (e) {
@@ -126,7 +132,15 @@ function Inicio() {
     async function currentPosition(){
       try {
         const response = await api.get('/satellites/25544');
-        const { latitude, longitude, altitude, velocity } = response.data;
+        const { 
+          latitude, 
+          longitude, 
+          altitude, 
+          velocity, 
+          solar_lat, 
+          solar_lon ,
+          footprint
+        } = response.data;
 
         setIss([latitude, longitude]);
 
@@ -140,6 +154,13 @@ function Inicio() {
         setCurrentLong(longString);
         setCurrentAlt(altitude);
         setCurrentVel(velocity);
+        setCurrentFootprint(footprint);
+        // const solarArray = [[solar_lon, solar_lat]];
+        // const lineSolar = helpers.lineString(solarArray);
+
+        // const bezierSolar= bezierSpline(lineSolar);
+        // console.log(bezierSolar);
+        // setSolar(bezierSolar);
       } catch (e) {
         console.log(e);
       }
@@ -164,10 +185,15 @@ function Inicio() {
             icon={ISSIcon}
             position={iss}
           />
+          {currentFootprint && <Circle center={iss} radius={currentFootprint*1000/2}/>}
           {futureInicio && <GeoJSON color="black" data={futureInicio}/>}
           {futureBreak && <GeoJSON color="black" data={futureBreak} />}
 
-          {/* {past && past.map(linha => <GeoJSON color="red" data={linha} />)} */}
+          {pastInicio && <GeoJSON color="red" data={pastInicio} />}
+          {pastBreak && <GeoJSON color="red" data={pastBreak} />}
+
+          {solar && <GeoJSON color="blue" data={solar} />}
+
         </Map>
       </div>
       <div className="info">
