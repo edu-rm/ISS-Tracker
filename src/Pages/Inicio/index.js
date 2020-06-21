@@ -20,7 +20,7 @@ function Inicio() {
   const [currentAlt, setCurrentAlt] = useState();
   const [currentVel, setCurrentVel] = useState();
   const [future, setFuture] = useState([]);
-  const [past, setPast] = useState();
+  const [past, setPast] = useState([]);
   const [updateRoutes, setUpdateRoutes] = useState(false);
 
   async function requestRoutePosition(queryFuture, queryPast){
@@ -52,20 +52,36 @@ function Inicio() {
     }catch (e) {
       console.log(e);
     }
-    // try {
-    //   const response = await api.get(`satellites/25544/positions?timestamps=${queryPast}`);
-    //   const latLong = response.data
-    //                     .map(info => [info.longitude, info.latitude]);
+    try {
+      const response = await api.get(`satellites/25544/positions?timestamps=${queryPast}`);
+      const pos_inicialLongitude = response.data[0].longitude;
 
-    //   const line = helpers.lineString(latLong);
+      let inicio = [{}];
+      let inicioBreak= [{}];
 
-    //   const data = bezierSpline(line);
-      
-    //   setPast(data);
+      for(let i = 0 ; i< response.data.length ; i++){
+        if(pos_inicialLongitude >= response.data[i].longitude){
+          inicio[i] = response.data[i]; 
+        }else {
+          inicioBreak[i - inicio.length] = response.data[i];
+        }
+      }
+      // console.log(inicio);
+      // console.log(inicioBreak);
 
-    // }catch (e) {
-    //   console.log(e);
-    // }
+      const lineInicio = helpers.lineString(inicio.map(info => [info.longitude, info.latitude]));
+      const lineBreak = helpers.lineString(inicioBreak.map(info => [info.longitude, info.latitude]));
+
+
+      const bezierInicio = bezierSpline(lineInicio);
+      const bezierBreak = bezierSpline(lineBreak);
+
+      setPast([bezierInicio, bezierBreak]); 
+
+
+    }catch (e) {
+      console.log(e);
+    }
   }
   
   useEffect(() => {
@@ -123,7 +139,7 @@ function Inicio() {
   return (
     <div className="container-inicio">
       <div className="map">
-        <Map length={4} center={[0,0]} zoom={1.5} >
+        <Map center={[0,0]} zoom={1.5} >
           <TileLayer
             // attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -137,7 +153,7 @@ function Inicio() {
             position={iss}
           />
           {future && future.map(linha => <GeoJSON color="black" data={linha} />)}
-          {past && <GeoJSON color="red" data={past} />}
+          {past && past.map(linha => <GeoJSON color="red" data={linha} />)}
         </Map>
       </div>
       <div className="info">
