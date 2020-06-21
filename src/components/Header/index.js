@@ -7,7 +7,7 @@ function Header() {
 
   return (
     <div className="container-header">
-      <div className='content'>
+      <div className="content-header">
         <ul>
           <div className="logo">
             <img src={ISS} alt="iss logo"/>

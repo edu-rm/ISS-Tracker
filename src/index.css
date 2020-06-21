@@ -13,6 +13,7 @@ body {
   background: blue;
   color: #fff;
 }
+
 body, #root {
   height: 100%;
 

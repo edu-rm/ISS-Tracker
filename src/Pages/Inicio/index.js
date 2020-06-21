@@ -19,9 +19,11 @@ function Inicio() {
   const [currentLong, setCurrentLong] = useState();
   const [currentAlt, setCurrentAlt] = useState();
   const [currentVel, setCurrentVel] = useState();
-  const [future, setFuture] = useState([]);
+  const [futureInicio, setFutureInicio] = useState();
+  const [futureBreak, setFutureBreak] = useState();
+
   const [past, setPast] = useState([]);
-  const [updateRoutes, setUpdateRoutes] = useState(false);
+  const [updateRoutes, setUpdateRoutes] = useState(1);
 
   async function requestRoutePosition(queryFuture, queryPast){
     try {
@@ -30,8 +32,8 @@ function Inicio() {
       // console.log(pos_inicialLongitude);
       // se a posição inicial dele for maior que a próxima, ele mudou.
 
-      let inicio = [{}];
-      let inicioBreak= [{}];
+      let inicio = [];
+      let inicioBreak= [];
 
       for(let i = 0 ; i< response.data.length ; i++){
         if(pos_inicialLongitude <= response.data[i].longitude){
@@ -41,13 +43,23 @@ function Inicio() {
         }
       }
 
-      const lineInicio = helpers.lineString(inicio.map(info => [info.longitude, info.latitude]));
-      const lineBreak = helpers.lineString(inicioBreak.map(info => [info.longitude, info.latitude]));
+      console.log(inicio)
+      console.log(inicioBreak)
 
+      if(inicio.length >=1){
+        const lineInicio = helpers.lineString(inicio.map(info => [info.longitude, info.latitude]));
+        const bezierInicio = bezierSpline(lineInicio);
+        setFutureInicio(bezierInicio);
 
-      const bezierInicio = bezierSpline(lineInicio);
-      const bezierBreak = bezierSpline(lineBreak);
-      setFuture([bezierInicio, bezierBreak]); 
+      }
+
+      if(inicioBreak.length >=1){
+        const lineBreak = helpers.lineString(inicioBreak.map(info => [info.longitude, info.latitude]));
+        const bezierBreak = bezierSpline(lineBreak);
+        setFutureBreak(bezierBreak); 
+      }
+
+      
 
     }catch (e) {
       console.log(e);
@@ -90,10 +102,10 @@ function Inicio() {
       let queryStringPast = '';
 
       // console.log("executei");
-      for(let i = 0; i < 46; i++) {
-        queryStringFuture += `${timestamp + (i * 130)},`;
+      for(let i = 0; i < 45; i++) {
+        queryStringFuture += `${timestamp + (i * 120)},`;
       }
-      for(let i = 0; i < 46; i++) {
+      for(let i = 0; i < 45; i++) {
         queryStringPast += `${timestamp + (i * -120)},`;
       }
     
@@ -139,7 +151,7 @@ function Inicio() {
   return (
     <div className="container-inicio">
       <div className="map">
-        <Map center={[0,0]} zoom={1.5} >
+        <Map center={[0,0]} zoom={-1} >
           <TileLayer
             // attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -152,8 +164,10 @@ function Inicio() {
             icon={ISSIcon}
             position={iss}
           />
-          {future && future.map(linha => <GeoJSON color="black" data={linha} />)}
-          {past && past.map(linha => <GeoJSON color="red" data={linha} />)}
+          {futureInicio && <GeoJSON color="black" data={futureInicio}/>}
+          {futureBreak && <GeoJSON color="black" data={futureBreak} />}
+
+          {/* {past && past.map(linha => <GeoJSON color="red" data={linha} />)} */}
         </Map>
       </div>
       <div className="info">
@@ -175,7 +189,7 @@ function Inicio() {
             <p id="name">Velocity:</p>
             <p id="value">{Math.trunc(currentVel)} km/h</p>
           </div>
-          <button type="button" onClick={() => setUpdateRoutes(!updateRoutes)}>Atualizar Rotas</button>
+          {/* <button type="button" onClick={() => setUpdateRoutes(!updateRoutes)}>Atualizar Rotas</button> */}
         </div>
       </div>
     </div>
