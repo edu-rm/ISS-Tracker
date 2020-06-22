@@ -21,7 +21,7 @@ function Header() {
             <a href='/sobre'>Sobre</a>
           </li>
           <li>
-            <a href='/sobre'>Pesquisar</a>
+            <a href='/pesquisar'>Pesquisar</a>
           </li>
         </ul>
       </div>

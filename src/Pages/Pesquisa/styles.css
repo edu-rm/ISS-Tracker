@@ -1,0 +1,41 @@
+.pesquisar-content {
+  background-image: url('../../assets/wallpaper.jpg');
+  background-size: cover;
+  margin-left:100px;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin: 0 auto; */
+}
+
+.pesquisar-content img {
+  width: 80px;
+  margin: 50px auto 25px auto;
+}
+
+.pesquisar-container {
+  background-color: black;
+  color: white;
+  width: 50%;
+  min-height: 400px;
+  text-align: center;
+  border: 2px solid white;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+}
+
+.pesquisar-container .pesquisar-logo p{
+  font-weight: 100;
+  margin: 0;
+}
+
+.pesquisar-container .pesquisar-logo {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+.pesquisar-container h1 {
+  margin: auto 0;
+}

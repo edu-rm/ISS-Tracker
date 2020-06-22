@@ -27,7 +27,6 @@ function Inicio() {
 
   const [futureInicio, setFutureInicio] = useState();
   const [futureBreak, setFutureBreak] = useState();
-  const [solar, setSolar] = useState();
 
   const [pastInicio, setPastInicio] = useState();
   const [pastBreak, setPastBreak] = useState();
@@ -114,20 +113,25 @@ function Inicio() {
       setUserPosition([latitude, longitude]);
     });
   }, []);
+
   useEffect(() => {
       const timestamp = Math.trunc(Date.now()/1000);
       let queryStringFuture = '';
+
       let queryStringPast = '';
 
       // console.log("executei");
-      for(let i = 0; i < 45; i++) {
+      for(let i = 0; i < 46; i++) {
         queryStringFuture += `${timestamp + (i * 120)},`;
       }
+
+
       for(let i = 0; i < 45; i++) {
         queryStringPast += `${timestamp + (i * -120)},`;
       }
     
       queryStringFuture = queryStringFuture.slice(0,-1);
+
 
       queryStringPast = queryStringPast.slice(0,-1);
 
@@ -167,7 +171,7 @@ function Inicio() {
         setCurrentAlt(altitude);
         setCurrentVel(velocity);
         setCurrentFootprint(footprint);
-        setSolar([solar_lon, solar_lat]);
+        // setSolar([solar_lon, solar_lat]);
         // const lineSolar = helpers.lineString(solarArray);
 
         // const bezierSolar= bezierSpline(lineSolar);
