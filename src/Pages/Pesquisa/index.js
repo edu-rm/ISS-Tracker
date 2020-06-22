@@ -1,19 +1,42 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import passApi from '../../services/passApi'
 
 import ISS from '../../assets/iss_countries.jpeg';
 
 import './styles.css';
 
 function Pesquisa() {
-  const [userLocation, setUserLocation] = useState();
+  const [userLatitude, setUserLatitude] = useState();
+  const [userLongitude, setUserLongitude] = useState();
+  const [loadingPosition, setLoadingPosition] = useState(true);
 
-  useState(()=> {
-    const positions = navigator.geolocation.getCurrentPosition(position => {
+  useEffect(()=> {
+     
+    navigator.geolocation.getCurrentPosition((position) => {
       const { latitude, longitude } = position.coords;
-      setUserLocation([latitude, longitude]);
+      setUserLatitude(latitude);
+      setUserLongitude(longitude);
     });
 
-  }, []);
+  },[]);
+
+  useEffect(()=>{
+    try{
+
+      passApi.get('iss-pass.json', {
+        params :{
+          lat: userLatitude,
+          lon: userLongitude
+        }
+      }).then(response => {
+        console.log(response.data);
+      });
+        
+    } catch (e) {
+      console.log(e);
+    }
+  },[userLatitude, userLongitude])
 
   return (
     <div className="pesquisar-content">
@@ -23,7 +46,10 @@ function Pesquisa() {
           <h2>Pesquisar passagem</h2>
           <p>Ative a localização no seu navegador para poder usar esse recurso</p>
         </div>
-        {!userLocation && <h1>Aguardando localização . . . </h1> }
+        {!userLatitude && <h1>Aguardando localização . . . </h1> }
+        <p>{userLatitude}</p>
+        <p>{userLongitude}</p>
+
       </div>
     </div>
   );
