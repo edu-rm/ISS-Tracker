@@ -9,13 +9,11 @@ import Pesquisa from '../Pages/Pesquisa';
 
 function Routes() {
   return (
-    <BrowserRouter>
       <Switch>
         <Route path='/' exact component={Inicio} />
         <Route path='/sobre' component={Sobre} />
         <Route path='/pesquisar' component={Pesquisa} />
       </Switch>
-    </BrowserRouter>
   );
 }
 

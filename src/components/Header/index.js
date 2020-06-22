@@ -1,7 +1,10 @@
 import React from 'react';
+
+import { Link } from 'react-router-dom';
 // import { Link } from 'react-router-dom';
 import './styles.css';
 import ISS from '../../assets/iss_countries.jpeg';
+
 
 function Header() {
 
@@ -15,13 +18,13 @@ function Header() {
         </div>
         <ul>
           <li className='active'>
-            <a href='/'>Live</a>
+            <Link to='/'>Live</Link>
           </li>
           <li>
-            <a href='/sobre'>Sobre</a>
+            <Link to='/sobre'>Sobre</Link>
           </li>
           <li>
-            <a href='/pesquisar'>Pesquisar</a>
+            <Link to='/pesquisar'>Pesquisar</Link>
           </li>
         </ul>
       </div>
