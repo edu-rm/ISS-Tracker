@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, { useState, useEffect } from 'react';
 
 import passApi from '../../services/passApi'
@@ -10,6 +11,7 @@ function Pesquisa() {
   const [userLatitude, setUserLatitude] = useState();
   const [userLongitude, setUserLongitude] = useState();
   const [loadingPosition, setLoadingPosition] = useState(true);
+  const [passes, setPasses] = useState([]);
 
   const [celular, setCelular] = useState(false);
 
@@ -42,13 +44,15 @@ function Pesquisa() {
           lon: userLongitude
         }
       }).then(response => {
-        console.log(response.data);
+        
+        // console.log();
+        setPasses(response.data.response);
       });
         
     } catch (e) {
       console.log(e);
     }
-  },[userLatitude, userLongitude])
+  },[userLatitude, userLongitude]);
 
   return (
     <div className="pesquisar-content">
@@ -59,10 +63,23 @@ function Pesquisa() {
           <p>Ative a localização no seu navegador para poder usar esse recurso</p>
         </div>
         {celular && !userLatitude && (<h1>Aparecerá o formulario </h1> )}
-        {userLatitude && (<h1>navegador </h1> )}
+        {userLatitude && (
+          <div className="table">
+            <div className="table-header">
+              <p>Momento</p>
+              <p>Duração</p>
+            </div>
+            {passes.map(pass => (
+              <div className="table-data">
+                <p>{pass.risetime}</p>
+                <p>{pass.duration}</p>
+              </div>
+            ))
 
-        <p>{userLatitude}</p>
-        <p>{userLongitude}</p>
+            }
+
+          </div>
+        )}
 
       </div>
     </div>

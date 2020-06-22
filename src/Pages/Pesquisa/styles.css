@@ -39,3 +39,22 @@
 .pesquisar-container h1 {
   margin: auto 0;
 }
+
+
+/* TABELA */
+.table {
+  margin: 20px 20px;
+
+}
+.table .table-header {
+  display: grid;
+  background-color: gray;
+  grid-template-columns: 1fr 1fr;
+}
+
+.table .table-data {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  border: 1px solid gray;
+}
+/* .table */
