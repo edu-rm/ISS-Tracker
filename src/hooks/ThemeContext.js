@@ -1,25 +1,36 @@
 import React, { useContext, useReducer, createContext } from 'react';
 
 const initial_state = {
-  theme: 'papel'
+  papel: true,
+  dark: false,
+  normal: false,
 }
 
-function reducer(state, action) {
+function reducer(theme, action) {
   switch (action.type) {
-    case '@Theme/Papel' : 
+    case '@Theme/Papel' : {
       return {
-        ...state,
-        theme: 'papel'
+        papel: true,
+        dark: false,
+        normal: false,
       }
-    
-    case '@Theme/Dark' : 
+    }
+    case '@Theme/Dark' : {
       return {
-        ...state,
-        theme: 'dark'
+        papel: false,
+        dark: true,
+        normal: false,
       }
-    
+    }
+    case '@Theme/Normal' : { 
+      return {
+        papel: false,
+        dark: false,
+        normal: true,
+      }
+    }
     default : 
-      return state;
+      return theme;
     
   }
 }
@@ -27,12 +38,12 @@ function reducer(state, action) {
 export const ThemeContext = createContext();
 
 export function ContextProvider({ children }) {
-  const [state, dispatch] = useReducer(reducer, initial_state);
+  const [theme, dispatch] = useReducer(reducer, initial_state);
 
   return (
     <ThemeContext.Provider
       value={{
-        state,
+        theme,
         dispatch,
       }}
     >

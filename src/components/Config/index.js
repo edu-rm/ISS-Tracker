@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { FaCog, FaCogs } from 'react-icons/fa';
+import { FaCogs } from 'react-icons/fa';
 
 import { ThemeContext } from '../../hooks/ThemeContext';
 
@@ -11,7 +11,10 @@ function Config() {
   // const [showId, setShowId] = useState();
 
   function handleThemeOptionChange(e){
-    console.log(e.target.value);
+    console.log(`@Theme/${e.target.value}`);
+    dispatch({
+        type: `@Theme/${e.target.value}`,
+    });
   }
 
   function handleMouseOver(){
@@ -38,8 +41,8 @@ function Config() {
           <div className="config-item">
             <label htmlFor="temas">Tema:</label>
             <select name="temas" id="tema" onChange={handleThemeOptionChange}>
-              <option value="draft">Papelão</option>
-              <option value="dark">Dark</option>
+              <option value="Papel">Papel</option>
+              <option value="Dark">Dark</option>
             </select>
           </div>
 

@@ -3,6 +3,7 @@ import { Map, TileLayer, Marker, GeoJSON, Circle } from 'react-leaflet';
 import bezierSpline from '@turf/bezier-spline';
 import * as helpers from "@turf/helpers";
 
+import { ThemeContext } from '../../hooks/ThemeContext';
 
 import Config from '../../components/Config';
 
@@ -19,6 +20,7 @@ import api from '../../services/api';
 
 
 function Inicio() {
+  const { theme } = useContext(ThemeContext);
 
   const [iss, setIss] = useState([0,0]);
   const [currentLat, setCurrentLat] = useState();
@@ -135,7 +137,6 @@ function Inicio() {
 
       let queryStringPast = '';
 
-      // console.log("executei");
       for(let i = 0; i < 46; i++) {
         queryStringFuture += `${timestamp + (i * 120)},`;
       }
@@ -158,7 +159,6 @@ function Inicio() {
   useEffect(() => {
     const timer = setInterval(() => {
       currentPosition();
-      console.log('executei');
     }, 2000);
 
     async function currentPosition(){
@@ -200,19 +200,31 @@ function Inicio() {
 
   },[]);
 
-
   return (
     <div className="container-inicio">
       <div className="map">
         <Map center={userPosition || [0,0]} zoom={2} >
-          <TileLayer
-            // attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-            // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-            url='https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png'
-            attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-            noWrap={true}
-            
-          />
+          {
+            theme.papel 
+            &&  
+            <TileLayer
+              // attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              url='https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png'
+              attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              noWrap={true}
+            />
+          }
+          {
+            theme.dark 
+            &&  
+            <TileLayer
+              // attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              url='https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'
+              attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+            />
+          }
           <Marker 
             icon={ISSIcon}
             position={iss}
@@ -226,7 +238,7 @@ function Inicio() {
           />
           }
 
-          {currentFootprint && <Circle center={[currentLat, currentLong]} radius={currentFootprint*500}/>}
+          {currentFootprint && <Circle color='black' center={[currentLat, currentLong]} radius={currentFootprint*500}/>}
           {futureInicio && <GeoJSON color="green" data={futureInicio}/>}
           {futureBreak && <GeoJSON color="green" data={futureBreak} />}
 
