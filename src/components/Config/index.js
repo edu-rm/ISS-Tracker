@@ -27,7 +27,7 @@ function Config() {
         <div className="config-items" onMouseOver={handleMouseOver} onMouseOut={handleMouseOut} id="invisivel">
           
           <div className="config-item">
-            <label for="temas">Tema:</label>
+            <label htmlFor="temas">Tema:</label>
             <select name="temas" id="tema">
               <option value="draft">Papelão</option>
               <option value="dark">Dark</option>

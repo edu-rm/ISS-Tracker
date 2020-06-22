@@ -37,7 +37,10 @@ function Inicio() {
 
   async function requestRoutePosition(queryFuture, queryPast){
     try {
+
       const response = await api.get(`satellites/25544/positions?timestamps=${queryFuture}`);
+      
+
       const pos_inicialLongitude = response.data[0].longitude;
       // console.log(pos_inicialLongitude);
       // se a posição inicial dele for maior que a próxima, ele mudou.
@@ -66,11 +69,11 @@ function Inicio() {
         setFutureBreak(bezierBreak); 
       }
 
-      
 
     }catch (e) {
       console.log(e);
     }
+
     try {
       const response = await api.get(`satellites/25544/positions?timestamps=${queryPast}`);
       const pos_inicialLongitude = response.data[0].longitude;
@@ -141,9 +144,10 @@ function Inicio() {
   },[updateRoutes])
 
   useEffect(() => {
-    setInterval(() => {
+    const timer = setInterval(() => {
       currentPosition();
-    }, 1000);
+      console.log('executei');
+    }, 2000);
 
     async function currentPosition(){
       try {
@@ -153,8 +157,6 @@ function Inicio() {
           longitude, 
           altitude, 
           velocity, 
-          solar_lat, 
-          solar_lon ,
           footprint
         } = response.data;
 
@@ -180,7 +182,9 @@ function Inicio() {
       } catch (e) {
         console.log(e);
       }
-    }    
+    }  
+    
+    return () => clearTimeout(timer);
 
   },[]);
 
