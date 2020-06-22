@@ -3,13 +3,15 @@ import { Map, TileLayer, Marker, GeoJSON, Circle } from 'react-leaflet';
 import bezierSpline from '@turf/bezier-spline';
 import * as helpers from "@turf/helpers";
 
+import Config from '../../components/Config';
+
+import './styles.css';
+
 import ISSIcon from '../../components/Icon/iss';
 import you from '../../components/Icon/user';
 import red_line from '../../assets/red_line.png';
 import green_line from '../../assets/green_line.png';
 import api from '../../services/api';
-
-import './styles.css';
 
 // longitude : -180 até 180
 // latitude : -90 até 90
@@ -52,14 +54,14 @@ function Inicio() {
         }
       }
 
-      if(inicio.length >=1){
+      if(inicio.length >= 2){
         const lineInicio = helpers.lineString(inicio.map(info => [info.longitude, info.latitude]));
         const bezierInicio = bezierSpline(lineInicio);
         setFutureInicio(bezierInicio);
 
       }
 
-      if(inicioBreak.length >=1){
+      if(inicioBreak.length >= 2){
         const lineBreak = helpers.lineString(inicioBreak.map(info => [info.longitude, info.latitude]));
         const bezierBreak = bezierSpline(lineBreak);
         setFutureBreak(bezierBreak); 
@@ -87,14 +89,14 @@ function Inicio() {
       // console.log(inicio);
       // console.log(inicioBreak);
 
-      if(inicio.length >=1){
+      if(inicio.length >= 2){
         const lineInicio = helpers.lineString(inicio.map(info => [info.longitude, info.latitude]));
         const bezierInicio = bezierSpline(lineInicio);
         setPastInicio(bezierInicio);
 
       }
 
-      if(inicioBreak.length >=1){
+      if(inicioBreak.length >= 2){
         const lineBreak = helpers.lineString(inicioBreak.map(info => [info.longitude, info.latitude]));
         const bezierBreak = bezierSpline(lineBreak);
         setPastBreak(bezierBreak); 
@@ -215,6 +217,7 @@ function Inicio() {
 
         </Map>
       </div>
+      <Config />
       <div className="legenda">
         <div className="item">
           <p id="passado">Passado:</p>

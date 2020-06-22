@@ -1,0 +1,44 @@
+.container-config {
+  color: white;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 900;
+
+}
+
+.container-config #config{
+  border: none;
+  background: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+.container-config .config-menu {
+  position: relative;
+}
+
+.container-config .config-items {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  z-index: 997;
+  background-color: rgba(0,0,0,0.79);
+  padding: 50px 12px;
+  border-radius: 8px;
+  display: none;
+}
+
+.container-config .config-items .config-item {
+  display: flex;
+}
+
+.container-config .config-items .config-item label {
+  margin-right: 12px;
+}
+
+.container-config #mostrar {
+  display: flex;
+}
