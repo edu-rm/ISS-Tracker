@@ -11,15 +11,15 @@ function Pesquisa() {
   const [userLongitude, setUserLongitude] = useState();
   const [loadingPosition, setLoadingPosition] = useState(true);
 
-  // useEffect(()=> {
+  useEffect(()=> {
      
-    // navigator.geolocation.getCurrentPosition((position) => {
-    //   const { latitude, longitude } = position.coords;
-    //   setUserLatitude(latitude);
-    //   setUserLongitude(longitude);
-    // });
+    navigator.geolocation.getCurrentPosition((position) => {
+      const { latitude, longitude } = position.coords;
+      setUserLatitude(latitude);
+      setUserLongitude(longitude);
+    });
 
-  // },[]);
+  },[]);
 
   useEffect(()=>{
     try{
