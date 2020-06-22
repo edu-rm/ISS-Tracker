@@ -43,6 +43,8 @@ function Config() {
             <select name="temas" id="tema" onChange={handleThemeOptionChange}>
               <option value="Papel">Papel</option>
               <option value="Dark">Dark</option>
+              <option value="Fire">Fire</option>
+              <option value="Satelite">Satélite</option>
             </select>
           </div>
 

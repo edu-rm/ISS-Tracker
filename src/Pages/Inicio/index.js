@@ -208,8 +208,6 @@ function Inicio() {
             theme.papel 
             &&  
             <TileLayer
-              // attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               url='https://stamen-tiles-{s}.a.ssl.fastly.net/watercolor/{z}/{x}/{y}.png'
               attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
               noWrap={true}
@@ -219,10 +217,24 @@ function Inicio() {
             theme.dark 
             &&  
             <TileLayer
-              // attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-              // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
               url='https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'
               attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+            />
+          }
+          {
+            theme.fire 
+            &&  
+            <TileLayer
+              url='https://{s}.tile.thunderforest.com/spinal-map/{z}/{x}/{y}.png'
+              attribution='&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            />
+          }
+          {
+            theme.satelite 
+            &&  
+            <TileLayer
+              url='https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'
+              attribution='Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
             />
           }
           <Marker 
@@ -238,7 +250,7 @@ function Inicio() {
           />
           }
 
-          {currentFootprint && <Circle color='black' center={[currentLat, currentLong]} radius={currentFootprint*500}/>}
+          {currentFootprint && <Circle color='' center={[currentLat, currentLong]} radius={currentFootprint*500}/>}
           {futureInicio && <GeoJSON color="green" data={futureInicio}/>}
           {futureBreak && <GeoJSON color="green" data={futureBreak} />}
 

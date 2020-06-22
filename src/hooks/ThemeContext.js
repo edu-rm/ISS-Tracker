@@ -4,6 +4,8 @@ const initial_state = {
   papel: true,
   dark: false,
   normal: false,
+  fire: false,
+  satelite: true,
 }
 
 function reducer(theme, action) {
@@ -13,6 +15,8 @@ function reducer(theme, action) {
         papel: true,
         dark: false,
         normal: false,
+        fire: true,
+        satelite: false,
       }
     }
     case '@Theme/Dark' : {
@@ -20,13 +24,26 @@ function reducer(theme, action) {
         papel: false,
         dark: true,
         normal: false,
+        fire: false,
+        satelite: false,
       }
     }
-    case '@Theme/Normal' : { 
+    case '@Theme/Fire' : {
       return {
         papel: false,
         dark: false,
-        normal: true,
+        normal: false,
+        fire: true,
+        satelite: false,
+      }
+    }
+    case '@Theme/Satelite' : { 
+      return {
+        papel: false,
+        dark: false,
+        normal: false,
+        fire: false,
+        satelite: true,
       }
     }
     default : 
