@@ -107,12 +107,12 @@ function Inicio() {
     }
   }
 
-  useEffect(()=>{
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords;
-      setUserPosition([latitude, longitude]);
-    });
-  }, []);
+  // useEffect(()=>{
+  //   navigator.geolocation.getCurrentPosition(position => {
+  //     const { latitude, longitude } = position.coords;
+  //     setUserPosition([latitude, longitude]);
+  //   });
+  // }, []);
 
   useEffect(() => {
       const timestamp = Math.trunc(Date.now()/1000);
