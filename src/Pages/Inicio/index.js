@@ -111,10 +111,20 @@ function Inicio() {
   }
 
   useEffect(()=>{
-    navigator.geolocation.getCurrentPosition(position => {
-      const { latitude, longitude } = position.coords;
-      setUserPosition([latitude, longitude]);
-    });
+    if(!(navigator.userAgent.match(/Android/i)
+      || navigator.userAgent.match(/webOS/i)
+      || navigator.userAgent.match(/iPhone/i)
+      || navigator.userAgent.match(/iPad/i)
+      || navigator.userAgent.match(/iPod/i)
+      || navigator.userAgent.match(/BlackBerry/i)
+      || navigator.userAgent.match(/Windows Phone/i)
+    )){
+      navigator.geolocation.getCurrentPosition(position => {
+        const { latitude, longitude } = position.coords;
+        setUserPosition([latitude, longitude]);
+      });
+    }
+
   }, []);
 
   useEffect(() => {
@@ -192,7 +202,7 @@ function Inicio() {
   return (
     <div className="container-inicio">
       <div className="map">
-        <Map center={userPosition} zoom={2} >
+        <Map center={userPosition || [0,0]} zoom={2} >
           <TileLayer
             // attribution='&amp;copy <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
             // url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"

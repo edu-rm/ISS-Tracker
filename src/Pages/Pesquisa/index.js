@@ -11,13 +11,25 @@ function Pesquisa() {
   const [userLongitude, setUserLongitude] = useState();
   const [loadingPosition, setLoadingPosition] = useState(true);
 
+  const [celular, setCelular] = useState(false);
+
   useEffect(()=> {
-     
-    navigator.geolocation.getCurrentPosition((position) => {
-      const { latitude, longitude } = position.coords;
-      setUserLatitude(latitude);
-      setUserLongitude(longitude);
-    });
+    if(!(navigator.userAgent.match(/Android/i)
+      || navigator.userAgent.match(/webOS/i)
+      || navigator.userAgent.match(/iPhone/i)
+      || navigator.userAgent.match(/iPad/i)
+      || navigator.userAgent.match(/iPod/i)
+      || navigator.userAgent.match(/BlackBerry/i)
+      || navigator.userAgent.match(/Windows Phone/i)
+    )){
+      navigator.geolocation.getCurrentPosition((position) => {
+        const { latitude, longitude } = position.coords;
+        setUserLatitude(latitude);
+        setUserLongitude(longitude);
+      });
+    }else {
+      setCelular(true);
+    }
 
   },[]);
 
@@ -46,7 +58,9 @@ function Pesquisa() {
           <h2>Pesquisar passagem</h2>
           <p>Ative a localização no seu navegador para poder usar esse recurso</p>
         </div>
-        {!userLatitude && <h1>Aguardando localização . . . </h1> }
+        {celular && !userLatitude && (<h1>Aparecerá o formulario </h1> )}
+        {userLatitude && (<h1>navegador </h1> )}
+
         <p>{userLatitude}</p>
         <p>{userLongitude}</p>
 
