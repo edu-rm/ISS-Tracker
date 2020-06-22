@@ -1,7 +1,9 @@
 import React from 'react';
 
 import Routes from './routes';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
+
+import {ContextProvider} from './hooks/ThemeContext';
 
 
 import Header from './components/Header';
@@ -10,7 +12,11 @@ function App() {
   return (
     <BrowserRouter>
       <Header />
-      <Routes />
+      <Switch>
+        <ContextProvider>
+          <Routes />
+        </ContextProvider>
+      </Switch>
     </BrowserRouter>
   );
 }

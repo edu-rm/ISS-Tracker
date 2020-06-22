@@ -4,8 +4,6 @@ const initial_state = {
   theme: 'papel'
 }
 
-const ThemeContext = createContext();
-
 function reducer(state, action) {
   switch (action.type) {
     case '@Theme/Papel' : 
@@ -24,15 +22,16 @@ function reducer(state, action) {
       return state;
     
   }
-  return state;
 }
 
+export const ThemeContext = createContext();
 
-function ContextProvider({ children }) {
+export function ContextProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initial_state);
+
   return (
     <ThemeContext.Provider
-      values={{
+      value={{
         state,
         dispatch,
       }}
@@ -41,5 +40,3 @@ function ContextProvider({ children }) {
     </ThemeContext.Provider>
   );
 }
-
-export default ContextProvider;

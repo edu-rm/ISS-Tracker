@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Map, TileLayer, Marker, GeoJSON, Circle } from 'react-leaflet';
 import bezierSpline from '@turf/bezier-spline';
 import * as helpers from "@turf/helpers";
+
 
 import Config from '../../components/Config';
 
@@ -18,6 +19,7 @@ import api from '../../services/api';
 
 
 function Inicio() {
+
   const [iss, setIss] = useState([0,0]);
   const [currentLat, setCurrentLat] = useState();
   const [currentLong, setCurrentLong] = useState();
