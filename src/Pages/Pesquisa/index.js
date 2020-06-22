@@ -44,9 +44,35 @@ function Pesquisa() {
           lon: userLongitude
         }
       }).then(response => {
-        
-        // console.log();
-        setPasses(response.data.response);
+        const fortmatted = response.data.response.map(data=> {
+          // Formatando data
+          let data_passagem = new Date(data.risetime*1000);
+          data_passagem = data_passagem.toLocaleString('pt-BR');
+
+          // Formatando minutos/ segundos
+
+          const segundos_decimal =(data.duration/60) - Math.trunc(data.duration/60) ;
+          console.log(segundos_decimal)
+          const segundos_formatado = Math.trunc(segundos_decimal*60);
+
+          const minutos = Math.trunc(data.duration/60);
+
+          // const durationFormatted = (Math.trunc(data.duration/60) + minutos).toFixed(2);
+
+          return {
+            ...data,
+            risetimeFormatted: data_passagem,
+            durationFormatted: {
+              minutes: minutos,
+              seconds:  segundos_formatado,
+            },
+          }
+        });
+
+        console.log(fortmatted);
+
+        setPasses(fortmatted);
+        // console.log(passes);
       });
         
     } catch (e) {
@@ -66,13 +92,13 @@ function Pesquisa() {
         {userLatitude && (
           <div className="table">
             <div className="table-header">
-              <p>Momento</p>
+              <p>Data e hora</p>
               <p>Duração</p>
             </div>
             {passes.map(pass => (
               <div className="table-data">
-                <p>{pass.risetime}</p>
-                <p>{pass.duration}</p>
+                <p>{pass.risetimeFormatted}</p>
+                <p>{`${pass.durationFormatted.minutes} m ${pass.durationFormatted.seconds} s`}</p>
               </div>
             ))
 
