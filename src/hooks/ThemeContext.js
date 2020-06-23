@@ -4,7 +4,7 @@ const initial_state = {
   papel: true,
   dark: false,
   normal: false,
-  satelite: true,
+  satelite: false,
   preto_branco: false
 }
 

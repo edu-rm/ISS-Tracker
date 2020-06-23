@@ -96,7 +96,7 @@ function Pesquisa() {
               <p>Duração</p>
             </div>
             {passes.map(pass => (
-              <div className="table-data">
+              <div key={pass.risetime} className="table-data">
                 <p>{pass.risetimeFormatted}</p>
                 <p>{`${pass.durationFormatted.minutes} m ${pass.durationFormatted.seconds} s`}</p>
               </div>

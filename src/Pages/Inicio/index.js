@@ -13,6 +13,8 @@ import ISSIcon from '../../components/Icon/iss';
 import you from '../../components/Icon/user';
 import red_line from '../../assets/red_line.png';
 import green_line from '../../assets/green_line.png';
+import purple_line from '../../assets/purple_line.png';
+
 import api from '../../services/api';
 
 // longitude : -180 até 180
@@ -28,6 +30,7 @@ function Inicio() {
   const [currentAlt, setCurrentAlt] = useState();
   const [currentVel, setCurrentVel] = useState();
   const [currentFootprint, setCurrentFootprint] = useState();
+  const [currentVisibility, setCurrentVisibility] = useState();
 
   const [futureInicio, setFutureInicio] = useState();
   const [futureBreak, setFutureBreak] = useState();
@@ -169,7 +172,8 @@ function Inicio() {
           longitude, 
           altitude, 
           velocity, 
-          footprint
+          footprint,
+          visibility
         } = response.data;
 
         setIss([latitude, longitude]);
@@ -185,6 +189,11 @@ function Inicio() {
         setCurrentAlt(altitude);
         setCurrentVel(velocity);
         setCurrentFootprint(footprint);
+        if(visibility === 'daylight') {
+          setCurrentVisibility(true);
+        }else {
+          setCurrentVisibility(false);
+        }
         // setSolar([solar_lon, solar_lat]);
         // const lineSolar = helpers.lineString(solarArray);
 
@@ -265,14 +274,19 @@ function Inicio() {
       <Config />
       <div className="legenda">
         <div className="item">
-          <p id="passado">Passado:</p>
-          <img id="red-line" src={red_line} alt="linha vermelha"/>
+          <p id="passado">Visível</p>
+          <img id="red-line" src={purple_line} alt="linha vermelha"/>
         </div>
         <div className="item">
           <p id="futuro">Futuro: </p>
           <img id="red-line" src={green_line} alt="linha vermelha"/>
         </div>
+        <div className="item">
+          <p id="passado">Passado:</p>
+          <img id="red-line" src={red_line} alt="linha vermelha"/>
+        </div>
       </div>
+      
       <div className="info">
         <h3>Information</h3>
         <div className="info-content">
@@ -291,6 +305,12 @@ function Inicio() {
           <div className="info-item">
             <p id="name">Velocity:</p>
             <p id="value">{Math.trunc(currentVel)} km/h</p>
+          </div>
+          <div>
+            {/* <p id="name">fdf</p> */}
+            <p id="iss-visibilidade">
+              {currentVisibility ? 'ISS está na luz do dia' : 'ISS está na sombra da terra'}
+            </p>
           </div>
           {/* <button type="button" onClick={() => setUpdateRoutes(!updateRoutes)}>Atualizar Rotas</button> */}
         </div>
