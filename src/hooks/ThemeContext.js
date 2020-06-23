@@ -1,11 +1,11 @@
-import React, { useContext, useReducer, createContext } from 'react';
+import React, { useReducer, createContext } from 'react';
 
 const initial_state = {
   papel: true,
   dark: false,
   normal: false,
-  fire: false,
   satelite: true,
+  preto_branco: false
 }
 
 function reducer(theme, action) {
@@ -15,8 +15,8 @@ function reducer(theme, action) {
         papel: true,
         dark: false,
         normal: false,
-        fire: true,
         satelite: false,
+        preto_branco: false
       }
     }
     case '@Theme/Dark' : {
@@ -26,15 +26,16 @@ function reducer(theme, action) {
         normal: false,
         fire: false,
         satelite: false,
+        preto_branco: false
       }
     }
-    case '@Theme/Fire' : {
+    case '@Theme/Pretobranco' : {
       return {
         papel: false,
         dark: false,
         normal: false,
-        fire: true,
         satelite: false,
+        preto_branco: true
       }
     }
     case '@Theme/Satelite' : { 
@@ -42,7 +43,6 @@ function reducer(theme, action) {
         papel: false,
         dark: false,
         normal: false,
-        fire: false,
         satelite: true,
       }
     }

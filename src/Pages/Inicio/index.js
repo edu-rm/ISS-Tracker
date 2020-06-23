@@ -217,16 +217,17 @@ function Inicio() {
             theme.dark 
             &&  
             <TileLayer
-              url='https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png'
-              attribution='&copy; <a href="https://stadiamaps.com/">Stadia Maps</a>, &copy; <a href="https://openmaptiles.org/">OpenMapTiles</a> &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors'
+              url='https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
+              subdomains= 'abcd'
             />
           }
           {
-            theme.fire 
+            theme.preto_branco 
             &&  
             <TileLayer
-              url='https://{s}.tile.thunderforest.com/spinal-map/{z}/{x}/{y}.png'
-              attribution='&copy; <a href="http://www.thunderforest.com/">Thunderforest</a>, &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+              url='https://stamen-tiles-{s}.a.ssl.fastly.net/toner/{z}/{x}/{y}{r}.png'
+              attribution='Map tiles by <a href="http://stamen.com">Stamen Design</a>, <a href="http://creativecommons.org/licenses/by/3.0">CC BY 3.0</a> &mdash; Map data &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
           }
           {
@@ -250,7 +251,7 @@ function Inicio() {
           />
           }
 
-          {currentFootprint && <Circle color='' center={[currentLat, currentLong]} radius={currentFootprint*500}/>}
+          {currentFootprint && <Circle color='#8464A9' center={[currentLat, currentLong]} radius={currentFootprint*500}/>}
           {futureInicio && <GeoJSON color="green" data={futureInicio}/>}
           {futureBreak && <GeoJSON color="green" data={futureBreak} />}
 
