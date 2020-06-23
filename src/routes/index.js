@@ -3,7 +3,7 @@ import { Route } from 'react-router-dom';
 
 import Inicio from '../Pages/Inicio';
 import Sobre from '../Pages/Sobre';
-import Pesquisa from '../Pages/Pesquisa';
+// import Pesquisa from '../Pages/Pesquisa';
 
 
 
@@ -12,7 +12,7 @@ function Routes() {
     <>
       <Route path='/' exact component={Inicio} />
       <Route path='/sobre' component={Sobre} />
-      <Route path='/pesquisar' component={Pesquisa} />
+      {/* <Route path='/pesquisar' component={Pesquisa} /> */}
     </>
   );
 }

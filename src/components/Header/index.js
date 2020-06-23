@@ -13,19 +13,19 @@ function Header() {
       <div className="content-header">
         <div className="logo">
           <img src={ISS} alt="iss logo"/>
+          <p>Track the</p>
           <h2>ISS</h2>
-          <p>Tracker</p>
         </div>
         <ul>
           <li className='active'>
             <Link to='/'>Live</Link>
           </li>
+          {/* <li>
+            <Link to='/pesquisar'>Pesquisar</Link>
+          </li> */}
           <li>
             <Link to='/sobre'>Sobre</Link>
-          </li>
-          <li>
-            <Link to='/pesquisar'>Pesquisar</Link>
-          </li>
+          </li> 
         </ul>
       </div>
     </div>
