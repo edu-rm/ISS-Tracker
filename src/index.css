@@ -39,3 +39,9 @@ a {
 h1, h2, h3 {
   margin: 0;
 }
+
+@media all and (max-width: 768px) {
+  .leaflet-container {
+    margin-left: 0;
+  }
+}

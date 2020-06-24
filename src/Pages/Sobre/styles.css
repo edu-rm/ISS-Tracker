@@ -9,6 +9,14 @@
   /* margin: 40px 0; */
 }
 
+#full-width {
+  margin-left: 0;
+  transition: 200ms;
+}
+#normal-width {
+  transition: 300ms;
+}
+
 .sobre-content {
   background-color: black;
   width: 72%;
@@ -97,4 +105,67 @@ h2 {
 .github a svg:hover {
   color: red;
   transition: 300ms;
+}
+
+
+
+
+
+@media all and (max-width: 768px) {
+  .sobre-container {
+    background: none;
+    height: 100%;
+    /* margin: 40px 0; */
+    margin-left: 0;
+
+  }
+
+  .sobre-content {
+    width: 100%;
+    margin: 0;
+  }
+      
+  .sobre-content .sobre-info {
+    padding: 0 10px;
+  }
+  
+  .sobre-content .sobre-info img {
+    width: 98%;
+  }
+  
+  h2 {
+    padding: 0 10px;
+    text-align: center;
+  }
+  
+  .sobre-desenvolvimento {
+    margin: 30px 0;
+  }
+  
+  .sobre-desenvolvimento .desenvolvedor {
+    /* padding: 20px ; */
+    justify-content: center;
+    padding: 0 0;
+    margin-bottom: 20px;
+  
+    /* text-align: center; */
+  }
+  
+  .sobre-desenvolvimento .desenvolvedor img {
+    width: 20%;
+    height: 20%;
+    margin-right: 10px;
+  }
+  .sobre-desenvolvimento .desenvolvedor .media p {
+    font-size: 16px;
+    /* align-self: flex-start; */
+  }
+  
+  .media .social-media a svg:hover{
+    color: white;
+  }
+    
+  .github a svg:hover {
+    color: white;
+  }
 }

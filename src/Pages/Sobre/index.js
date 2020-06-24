@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 
 
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
@@ -6,12 +6,25 @@ import ISS from '../../assets/iss_countries.jpeg';
 import Countries from '../../assets/countries.svg';
 import Desenvolvedor from '../../assets/desenvolvedor.jpeg';
 
+import { HeaderContext } from '../../hooks/HeaderContext';
 
 import './styles.css';
 
 function Sobre() {
+  const { hide } = useContext(HeaderContext);
+
+  useEffect(() => {
+    const elemento = document.querySelectorAll('.sobre-container');
+
+    if(hide) {
+      elemento[0].id = 'full-width';
+    }else {
+      elemento[0].id = 'normal-width';
+    }
+  }, [hide]);
+  
   return (
-    <div className="sobre-container">
+    <div id="normal-width" className="sobre-container">
       <div className="sobre-content">
         <div className="logo">
           <img src={ISS} alt="iss logo"/>

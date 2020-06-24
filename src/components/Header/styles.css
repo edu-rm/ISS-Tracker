@@ -13,6 +13,29 @@
   box-shadow: 0px 13px 30px rgba(0, 0, 0, 0.8);
 
 }
+
+.container-header .header-show {
+  position: absolute;
+  right: -30px;
+  background: none;
+  border: 0;
+  top: 50%;
+  z-index: 1001;
+  cursor: pointer;
+  outline: 0;
+  transition: 300ms;
+}
+
+#sumir {
+  transform: translateX(-100px);
+  transition: 350ms;
+}
+
+#aparecer {
+  transform: translateX(0);
+  transition: 290ms;
+}
+
   
 .content-header {
   border-radius: 20px;
