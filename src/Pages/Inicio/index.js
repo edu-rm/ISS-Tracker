@@ -4,6 +4,8 @@ import bezierSpline from '@turf/bezier-spline';
 import * as helpers from "@turf/helpers";
 
 import { ThemeContext } from '../../hooks/ThemeContext';
+import { HeaderContext } from '../../hooks/HeaderContext';
+
 
 import Config from '../../components/Config';
 
@@ -23,6 +25,8 @@ import api from '../../services/api';
 
 function Inicio() {
   const { theme } = useContext(ThemeContext);
+  const { hide } = useContext(HeaderContext);
+
 
   const [iss, setIss] = useState([0,0]);
   const [currentLat, setCurrentLat] = useState();
@@ -208,6 +212,15 @@ function Inicio() {
     return () => clearTimeout(timer);
 
   },[]);
+
+  useEffect(()=>{
+    const elemento = document.querySelectorAll('.leaflet-container');
+    if (hide) {
+      elemento[0].id = 'full-map-width';
+    }else {
+      elemento[0].id = 'normal-map-width';
+    }
+  }, [hide]);
 
   return (
     <div className="container-inicio">
