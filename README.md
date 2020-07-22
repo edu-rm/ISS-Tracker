@@ -23,12 +23,12 @@ A estação espacial internacional começou a ser montada no ano 1998 e terminou
 ### Criado com ReactJS.
 API utilizada: https://api.wheretheiss.at/v1/
 
-### Biblioteca:
+### Bibliotecas:
   - React Leaflet
     - Mapa gratuito.
   - CSS Puro.
   - @turf/bezier-spline 
-    - Usado parra criar curvas usando pontos e jogar no mapa ( Rotas futuras e passadas)
+    - Usado parra criar curvas usando pontos para "jogar" no mapa (rotas futuras e passadas)
     
 ## Rodar Localmente
 
