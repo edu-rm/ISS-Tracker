@@ -1,7 +1,7 @@
 
-![ISSTRAER](https://i.imgur.com/tR8J4uD.png)
+<center>![ISSTRAER](https://i.imgur.com/tR8J4uD.png)</center>
 
-## ISS TRACKER
+## TRACK THE ISS
 
 A estação espacial internacional começou a ser montada no ano 1998 e terminou oficialmente dia 8 de julho de 2011, é um laboratório completo que foi destinado a dar suporte a experimentos em ambiente de microgravidade e monitorar a Terra. Atualmente o seu principal objetivo é fornecer apoio a viagens espaciais cada vez mais longas.
 
